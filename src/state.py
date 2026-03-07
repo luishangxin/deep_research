@@ -1,44 +1,41 @@
 """
 ThreadState — extends LangGraph's AgentState with DeerFlow-specific fields.
+
+create_react_agent requires state_schema to include `messages` and
+`remaining_steps` (for recursion limit tracking). We get both by inheriting
+from AgentState and adding our own extra fields.
 """
 from __future__ import annotations
 
-from typing import Annotated, Any
+from typing import Annotated
 from typing_extensions import TypedDict
+
 from langgraph.graph.message import add_messages
+from langgraph.prebuilt.chat_agent_executor import AgentState
 
 
-class ThreadState(TypedDict, total=False):
+class ThreadState(AgentState):
     """
     The main state object threaded through the LangGraph StateGraph.
 
-    Core fields:
+    Inherits from AgentState which provides:
         messages          — conversation history (append-only via add_messages)
+        remaining_steps   — recursion limit counter (required by create_react_agent)
+
+    Additional DeerFlow fields:
         thread_id         — unique identifier for this conversation thread
 
-    Sandbox fields:
-        sandbox_handle    — opaque ID of the current LocalSandboxProvider session
-
-    Plan fields:
+        sandbox_handle    — workdir path of the current LocalSandboxProvider session
         todo_list         — ordered list of task items for Plan Mode
-
-    Vision fields:
         vision_cache      — dict[url -> base64_image] for reusing fetched images
-
-    File upload fields:
         uploaded_files    — dict[filename -> tmp_path] for user-uploaded files
 
-    Memory fields:
         memory_facts      — injected list of facts from memory.json
-        pending_clarification — set when ask_clarification tool fires; blocks
-                               further LLM calls until user responds
+        pending_clarification — set when ask_clarification fires; blocks further calls
 
-    Middleware scratch fields:
-        _summary_context  — compressed summary injected by summarization middleware
+        _summary_context  — compressed summary from summarization middleware
     """
-
-    # ---- Core ---------------------------------------------------------------
-    messages: Annotated[list, add_messages]
+    # ---- Identity -----------------------------------------------------------
     thread_id: str
 
     # ---- Sandbox ------------------------------------------------------------
@@ -57,5 +54,5 @@ class ThreadState(TypedDict, total=False):
     memory_facts: list[str]
     pending_clarification: str | None
 
-    # ---- Internal middleware scratch -----------------------------------------
+    # ---- Internal middleware scratch ----------------------------------------
     _summary_context: str | None

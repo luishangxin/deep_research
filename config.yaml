@@ -48,6 +48,7 @@ tool_groups:
   - name: file:read
   - name: file:write
   - name: bash
+  - name: pubmed
 
 # ============================================================================
 # Tools Configuration
@@ -67,6 +68,16 @@ tools:
     group: web
     use: src.community.jina_ai.tools:web_fetch_tool
     timeout: 10
+
+  # PubMed tools (NCBI E-utilities, no API key required)
+  # Optional: set NCBI_API_KEY in .env to raise rate limit to 10 req/s
+  - name: pubmed_search
+    group: pubmed
+    use: src.community.pubmed.tools:pubmed_search_tool
+
+  - name: pubmed_fetch
+    group: pubmed
+    use: src.community.pubmed.tools:pubmed_fetch_tool
 
   # File operations tools
   - name: ls
