@@ -43,9 +43,13 @@ node_modules/
 npm-debug.log
 yarn-error.log
 
+.langgraph_api/
+
 # Database
 *.db
 *.sqlite3
 
 # Local config
 .env
+
+
