@@ -1,4 +1,4 @@
-# Deep Research — DeerFlow Agent Backend
+# Deep Research — flow Agent Backend
 
 A dual-service AI research backend powered by **LangGraph** and **FastAPI**, specialized for academic and biomedical research.
 

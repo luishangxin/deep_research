@@ -21,7 +21,7 @@ def _load_config() -> dict:
     """Load and return the parsed config.yaml."""
     try:
         import yaml
-        path = Path(os.environ.get("DEER_FLOW_CONFIG_PATH", "config.yaml"))
+        path = Path(os.environ.get("FLOW_CONFIG_PATH", "config.yaml"))
         if path.exists():
             return yaml.safe_load(path.read_text()) or {}
     except ImportError:

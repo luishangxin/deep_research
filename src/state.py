@@ -1,5 +1,5 @@
 """
-ThreadState — extends LangGraph's AgentState with DeerFlow-specific fields.
+ThreadState — extends LangGraph's AgentState with flow-specific fields.
 
 create_react_agent requires state_schema to include `messages` and
 `remaining_steps` (for recursion limit tracking). We get both by inheriting
@@ -22,7 +22,7 @@ class ThreadState(AgentState):
         messages          — conversation history (append-only via add_messages)
         remaining_steps   — recursion limit counter (required by create_react_agent)
 
-    Additional DeerFlow fields:
+    Additional flow fields:
         thread_id         — unique identifier for this conversation thread
 
         sandbox_handle    — workdir path of the current LocalSandboxProvider session

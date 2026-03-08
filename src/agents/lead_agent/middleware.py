@@ -33,7 +33,7 @@ def _get_config() -> dict:
     """Load config.yaml lazily."""
     try:
         import yaml
-        config_path = Path(os.environ.get("DEER_FLOW_CONFIG_PATH", "config.yaml"))
+        config_path = Path(os.environ.get("FLOW_CONFIG_PATH", "config.yaml"))
         if config_path.exists():
             return yaml.safe_load(config_path.read_text()) or {}
     except Exception:

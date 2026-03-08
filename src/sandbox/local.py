@@ -2,7 +2,7 @@
 LocalSandboxProvider — thread-isolated local filesystem sandbox.
 
 Each thread (conversation session) gets its own working directory under
-/tmp/deerflow_sandbox/{thread_id}/, ensuring file operations are isolated
+/tmp/flow_sandbox/{thread_id}/, ensuring file operations are isolated
 between concurrent sessions.
 
 Thread isolation is achieved via threading.local() which stores the current
@@ -22,7 +22,7 @@ from src.sandbox.base import SandboxProvider
 _thread_local = threading.local()
 
 # Base directory for all sandboxes
-SANDBOX_BASE = Path(os.environ.get("SANDBOX_BASE", "/tmp/deerflow_sandbox"))
+SANDBOX_BASE = Path(os.environ.get("SANDBOX_BASE", "/tmp/flow_sandbox"))
 
 
 class LocalSandboxProvider(SandboxProvider):

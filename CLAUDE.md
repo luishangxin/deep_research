@@ -1,4 +1,4 @@
-# 目标：从零复现 DeerFlow Agent Backend 架构
+# 目标：从零复现 flow Agent Backend 架构
 
 你是一位顶级 Python 后端与 Agent 架构师。你需要使用 Python 3.12+ 和 `uv` 包管理器搭建一个包含 "多层中间件的 LangGraph Agent" 与 "FastAPI 网关" 的双服务后端系统。请按照以下架构约束和实现步骤生成代码：
 
@@ -25,8 +25,8 @@
    - 沙盒生命周期注入: （为本次调度锁定沙盒句柄） 
    - Token/Memory 持久化: （如果触发生成，则后台抛协程进行 Facts 事实化提取到 memory.json）
    - 反向拦截澄清: （强制捕获 `ask_clarification` Tool 的返回或错误异常并终结当前流程至 `END` 等待用户回复）。
-3. **Gateway 和 LangGraph 的分离**: 确保 [langgraph.json](cci:7://file:///Users/liushangxin/work/deer-flow/backend/langgraph.json:0:0-0:0) 直接能起服务，FastAPI (`python -m src.gateway.app`) 和主 Agent 通信不互斥可解耦，且 Gateway 不直接处理复杂的 LangGraph SSE 流，留给 Nginx 代理直接转发给 Agent 进程。
-4. **反射工厂 (Reflection System)**: 模型和底层 Tool 允许在 [config.yaml](cci:7://file:///Users/liushangxin/work/deer-flow/config.yaml:0:0-0:0) 定义类似于 `"langchain_openai:ChatOpenAI"` 这样的字符串依赖。要求自行实现一个 `resolve_class` 函数去动态加载对应的包并按需实例化。
+3. **Gateway 和 LangGraph 的分离**: 确保 [langgraph.json](cci:7://file:///Users/liushangxin/work/flow/backend/langgraph.json:0:0-0:0) 直接能起服务，FastAPI (`python -m src.gateway.app`) 和主 Agent 通信不互斥可解耦，且 Gateway 不直接处理复杂的 LangGraph SSE 流，留给 Nginx 代理直接转发给 Agent 进程。
+4. **反射工厂 (Reflection System)**: 模型和底层 Tool 允许在 [config.yaml](cci:7://file:///Users/liushangxin/work/flow/config.yaml:0:0-0:0) 定义类似于 `"langchain_openai:ChatOpenAI"` 这样的字符串依赖。要求自行实现一个 `resolve_class` 函数去动态加载对应的包并按需实例化。
 
 ## 输出要求
 请先梳理架构依赖及各个模块初始化顺序的启动脚本 (如 Makefile/README)，接着输出基础的 `State` 定义、主控 `factory.py` (反射工厂构建模型)、以及 `lead_agent.py` 的精简但完整的图构建代码 (使用 `StateGraph`)。

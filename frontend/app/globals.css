@@ -1,0 +1,106 @@
+@import "tailwindcss";
+@import "katex/dist/katex.min.css";
+
+/* ── Light mode (default) ─────────────────────────── */
+:root {
+  --bg-base: #f7f7f8;
+  --bg-surface: #ffffff;
+  --bg-panel: #efefef;
+  --bdr: rgba(0, 0, 0, 0.08);
+  --text-1: #111111;
+  --text-2: rgba(0, 0, 0, 0.55);
+  --text-3: rgba(0, 0, 0, 0.35);
+  --accent: #7c3aed;
+  color-scheme: light;
+}
+
+/* ── Dark mode ────────────────────────────────────── */
+.dark {
+  --bg-base: #0e0e0e;
+  --bg-surface: #111111;
+  --bg-panel: #1a1a1a;
+  --bdr: rgba(255, 255, 255, 0.07);
+  --text-1: #ededed;
+  --text-2: rgba(255, 255, 255, 0.55);
+  --text-3: rgba(255, 255, 255, 0.35);
+  color-scheme: dark;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+  overflow: hidden;
+  background-color: var(--bg-base);
+  color: var(--text-1);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Scrollbar */
+.scrollbar-thin::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+
+.scrollbar-thin::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb {
+  background: var(--bdr);
+  border-radius: 2px;
+}
+
+/* KaTeX */
+.katex-display {
+  overflow-x: auto;
+  padding: 0.5rem 0;
+}
+
+/* Typography for markdown */
+.prose {
+  color: var(--text-2);
+}
+
+.prose h1,
+.prose h2,
+.prose h3,
+.prose h4 {
+  color: var(--text-1);
+}
+
+.prose a {
+  color: var(--accent);
+}
+
+.prose strong {
+  color: var(--text-1);
+}
+
+.prose code {
+  color: var(--accent);
+  font-size: 0.85em;
+}
+
+.prose pre {
+  background: var(--bg-panel);
+  border: 1px solid var(--bdr);
+}
+
+.prose blockquote {
+  border-left-color: var(--accent);
+  color: var(--text-3);
+}
+
+.prose hr {
+  border-color: var(--bdr);
+}
+
+.prose ul li::marker,
+.prose ol li::marker {
+  color: var(--text-3);
+}

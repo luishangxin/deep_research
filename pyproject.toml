@@ -1,7 +1,7 @@
 [project]
 name = "deep-research"
 version = "0.1.0"
-description = "DeerFlow Agent Backend — LangGraph Lead Agent + FastAPI Gateway"
+description = "flow Agent Backend — LangGraph Lead Agent + FastAPI Gateway"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [

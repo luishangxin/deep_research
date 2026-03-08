@@ -43,7 +43,7 @@ from src.agents.lead_agent.middleware import run_middleware_chain
 def _load_config() -> dict:
     try:
         import yaml
-        path = Path(os.environ.get("DEER_FLOW_CONFIG_PATH", "config.yaml"))
+        path = Path(os.environ.get("FLOW_CONFIG_PATH", "config.yaml"))
         return yaml.safe_load(path.read_text()) or {} if path.exists() else {}
     except Exception:
         return {}

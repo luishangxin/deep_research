@@ -33,9 +33,9 @@ from src.gateway.routers.threads import router as threads_router
 def create_app() -> FastAPI:
     """Create and configure the FastAPI application."""
     app = FastAPI(
-        title="DeerFlow Gateway API",
+        title="flow Gateway API",
         description=(
-            "RESTful gateway for DeerFlow Agent Backend. "
+            "RESTful gateway for flow Agent Backend. "
             "Provides configuration read-access and thread/session management. "
             "LangGraph Agent streaming is served separately on port 2024."
         ),
@@ -61,13 +61,13 @@ def create_app() -> FastAPI:
     # Health check
     @app.get("/health", tags=["system"])
     async def health_check() -> dict:
-        return {"status": "ok", "service": "deerflow-gateway"}
+        return {"status": "ok", "service": "flow-gateway"}
 
     # Info
     @app.get("/", tags=["system"])
     async def root() -> dict:
         return {
-            "name": "DeerFlow Gateway",
+            "name": "flow Gateway",
             "version": "0.1.0",
             "docs": "/docs",
             "agent_server": "http://localhost:2024",

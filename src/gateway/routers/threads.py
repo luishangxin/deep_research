@@ -1,7 +1,7 @@
 """
 Threads Router — CRUD endpoints for conversation threads.
 
-Threads represent individual conversation sessions. In the full DeerFlow
+Threads represent individual conversation sessions. In the full flow
 architecture, actual message streaming is handled by the LangGraph Server
 directly (via Nginx proxy), so the Gateway only manages session metadata.
 
