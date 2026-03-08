@@ -20,7 +20,7 @@ export function SkillsPanel() {
             <aside className="w-72 shrink-0 flex flex-col border-r border-black/8 dark:border-white/5 bg-[--bg-surface]">
                 <div className="px-4 py-4 border-b border-black/8 dark:border-white/5">
                     <div className="flex items-center gap-2">
-                        <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-violet-500 to-blue-500 flex items-center justify-center shrink-0 shadow-sm">
+                        <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-orange-500 to-red-500 flex items-center justify-center shrink-0 shadow-sm">
                             <Wrench className="w-3.5 h-3.5 text-white" />
                         </div>
                         <h2 className="font-semibold text-sm text-[--text-primary]">Skills</h2>
@@ -87,18 +87,18 @@ function SkillListItem({
             className={cn(
                 "w-full flex items-start gap-2.5 rounded-lg px-3 py-2.5 text-left transition-all duration-100 group",
                 isActive
-                    ? "bg-violet-50 dark:bg-violet-500/10 text-[--text-primary]"
+                    ? "bg-orange-50 dark:bg-orange-500/10 text-[--text-primary]"
                     : "text-[--text-muted] hover:text-[--text-secondary] hover:bg-black/5 dark:hover:bg-white/5"
             )}
         >
             <Wrench
                 className={cn(
                     "w-3.5 h-3.5 mt-0.5 shrink-0 transition-colors",
-                    isActive ? "text-violet-500" : "text-[--text-muted]"
+                    isActive ? "text-orange-500" : "text-[--text-muted]"
                 )}
             />
             <div className="flex-1 min-w-0">
-                <p className={cn("text-xs font-medium truncate", isActive && "text-violet-600 dark:text-violet-400")}>
+                <p className={cn("text-xs font-medium truncate", isActive && "text-orange-600 dark:text-orange-400")}>
                     {skill.name}
                 </p>
                 {skill.description && (
@@ -110,7 +110,7 @@ function SkillListItem({
             <ChevronRight
                 className={cn(
                     "w-3 h-3 shrink-0 mt-0.5 transition-all",
-                    isActive ? "text-violet-400 opacity-100" : "opacity-0 group-hover:opacity-50"
+                    isActive ? "text-orange-400 opacity-100" : "opacity-0 group-hover:opacity-50"
                 )}
             />
         </button>
@@ -120,8 +120,8 @@ function SkillListItem({
 function EmptyState() {
     return (
         <div className="flex flex-col items-center justify-center h-full text-center py-16 gap-3">
-            <div className="w-12 h-12 rounded-xl bg-violet-50 dark:bg-violet-500/10 flex items-center justify-center">
-                <Wrench className="w-6 h-6 text-violet-400" />
+            <div className="w-12 h-12 rounded-xl bg-orange-50 dark:bg-orange-500/10 flex items-center justify-center">
+                <Wrench className="w-6 h-6 text-orange-400" />
             </div>
             <div>
                 <p className="text-sm font-medium text-[--text-secondary]">Select a skill</p>

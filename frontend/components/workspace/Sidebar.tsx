@@ -96,14 +96,14 @@ export function Sidebar({ collapsed, onToggle }: SidebarProps) {
                     className={cn(
                         "group w-full flex items-center gap-2.5 h-9 rounded-lg",
                         isSkillsActive
-                            ? "bg-violet-50 dark:bg-violet-500/10 border border-violet-200 dark:border-violet-500/20 text-violet-600 dark:text-violet-400"
+                            ? "bg-orange-50 dark:bg-orange-500/10 border-orange-200 dark:border-orange-500/20 text-orange-600 dark:text-orange-300 shadow-sm"
                             : "bg-transparent hover:bg-black/5 dark:hover:bg-white/5 border border-transparent hover:border-black/10 dark:hover:border-white/10 text-[--text-secondary] hover:text-[--text-primary]",
                         "transition-all duration-150 text-sm font-medium",
                         collapsed ? "justify-center px-0" : "px-3"
                     )}
                     title="Skills"
                 >
-                    <Wrench className={cn("w-4 h-4 shrink-0", isSkillsActive && "text-violet-500")} />
+                    <Wrench className={cn("w-4 h-4 shrink-0", isSkillsActive && "text-orange-500")} />
                     {!collapsed && <span>Skills</span>}
                 </button>
             </div>
