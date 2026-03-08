@@ -2,8 +2,8 @@
 
 import { useRouter } from "next/navigation";
 import { motion } from "motion/react";
-import { Sparkles, Zap, Cpu, Rocket, ArrowRight } from "lucide-react";
-import { useCreateThread } from "@/core/threads/hooks";
+import { MessageSquare, LayoutTemplate, Zap, Key, ArrowRight, Flame } from "lucide-react";
+import { ThemeToggle } from "@/components/ui/ThemeToggle";
 
 const SUGGESTIONS = [
     "Write a comprehensive research report on quantum computing",
@@ -45,11 +45,11 @@ export default function WorkspacePage() {
             >
                 <div className="flex items-center justify-center mb-4">
                     <div className="relative">
-                        <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-violet-500 to-blue-500 flex items-center justify-center shadow-xl shadow-violet-200 dark:shadow-violet-900/40">
-                            <Sparkles className="w-8 h-8 text-white" />
+                        <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-orange-500 to-red-500 flex items-center justify-center shadow-xl shadow-orange-200 dark:shadow-orange-900/40">
+                            <Flame className="w-8 h-8 text-white relative z-10" />
                         </div>
                         <motion.div
-                            className="absolute inset-0 rounded-2xl bg-gradient-to-br from-violet-500 to-blue-500 blur-xl opacity-20"
+                            className="absolute inset-0 rounded-2xl bg-gradient-to-br from-orange-500 to-red-500 blur-xl opacity-20"
                             animate={{ scale: [1, 1.15, 1], opacity: [0.2, 0.35, 0.2] }}
                             transition={{ repeat: Infinity, duration: 3, ease: "easeInOut" }}
                         />

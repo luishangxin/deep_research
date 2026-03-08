@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "motion/react";
-import { User, Brain, Copy, Check } from "lucide-react";
+import { User, Flame, Copy, Check } from "lucide-react";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 import type { Message } from "@/core/models/types";
@@ -90,8 +90,8 @@ export function MessageItem({ message, isLast }: MessageItemProps) {
             transition={{ duration: 0.25 }}
             className="flex gap-3 px-4 pb-4 group"
         >
-            <div className="w-7 h-7 rounded-full bg-gradient-to-br from-violet-500 to-blue-500 flex items-center justify-center shrink-0 mt-1 shadow-sm">
-                <Brain className="w-3.5 h-3.5 text-white" />
+            <div className="w-7 h-7 bg-gradient-to-br from-orange-500 to-red-500 rounded-md flex items-center justify-center shrink-0 shadow-sm">
+                <Flame className="w-3.5 h-3.5 text-white" />
             </div>
 
             <div className="flex-1 min-w-0 max-w-[90%]">

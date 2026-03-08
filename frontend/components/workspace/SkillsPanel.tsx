@@ -20,7 +20,7 @@ export function SkillsPanel() {
             <aside className="w-72 shrink-0 flex flex-col border-r border-black/8 dark:border-white/5 bg-[--bg-surface]">
                 <div className="px-4 py-4 border-b border-black/8 dark:border-white/5">
                     <div className="flex items-center gap-2">
-                        <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-violet-500 to-blue-500 flex items-center justify-center shrink-0 shadow-sm">
+                        <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-orange-500 to-red-500 flex items-center justify-center shrink-0 shadow-sm">
                             <Wrench className="w-3.5 h-3.5 text-white" />
                         </div>
                         <h2 className="font-semibold text-sm text-[--text-primary]">Skills</h2>

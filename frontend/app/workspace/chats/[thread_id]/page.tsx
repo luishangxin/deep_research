@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { motion } from "motion/react";
-import { Brain, AlertCircle } from "lucide-react";
+import { Flame, AlertCircle } from "lucide-react";
 import { ChatInput } from "@/components/workspace/ChatInput";
 import { MessageList } from "@/components/workspace/MessageList";
 import { useThreadStream } from "@/core/threads/stream";
@@ -43,8 +43,8 @@ export default function ChatPage({ params }: ChatPageProps) {
             {/* Top bar */}
             <div className="flex items-center h-12 px-4 border-b border-[--border] shrink-0 bg-[--bg-surface]">
                 <div className="flex items-center gap-2">
-                    <div className="w-5 h-5 rounded bg-gradient-to-br from-violet-500 to-blue-500 flex items-center justify-center">
-                        <Brain className="w-3 h-3 text-white" />
+                    <div className="w-6 h-6 rounded-lg bg-gradient-to-br from-orange-500 to-red-500 flex items-center justify-center shadow-sm">
+                        <Flame className="w-3 h-3 text-white" />
                     </div>
                     <span className="text-sm font-medium text-[--text-muted]">
                         {threadId === "new" ? "New Conversation" : "Chat"}
@@ -103,8 +103,8 @@ function EmptyState({ onSuggestion }: { onSuggestion: (s: string) => void }) {
                 className="text-center mb-8"
             >
                 <div className="relative inline-block mb-4">
-                    <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-violet-500 to-blue-500 flex items-center justify-center shadow-lg shadow-violet-200 dark:shadow-violet-500/20">
-                        <Brain className="w-6 h-6 text-white" />
+                    <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-orange-500 to-red-500 flex items-center justify-center shadow-lg shadow-orange-200 dark:shadow-orange-500/20">
+                        <Flame className="w-6 h-6 text-white" />
                     </div>
                 </div>
                 <h2 className="text-xl font-semibold text-[--text-primary] mb-2">How can I help?</h2>

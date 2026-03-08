@@ -5,7 +5,7 @@ import { useTheme } from "next-themes";
 import { motion, AnimatePresence } from "motion/react";
 import {
     Plus, Trash2, MessageSquare,
-    Sun, Moon, Brain, Loader2, PanelLeftClose, PanelLeftOpen, Wrench,
+    Sun, Moon, Flame, Loader2, PanelLeftClose, PanelLeftOpen, Wrench,
 } from "lucide-react";
 import { useState, useEffect } from "react";
 import { cn, formatDate, truncate } from "@/lib/utils";
@@ -79,8 +79,8 @@ export function Sidebar({ collapsed, onToggle }: SidebarProps) {
                         animate={{ opacity: 1 }}
                         className="flex items-center gap-2 min-w-0 flex-1 pl-1"
                     >
-                        <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-violet-500 to-blue-500 flex items-center justify-center shrink-0 shadow-sm">
-                            <Brain className="w-3.5 h-3.5 text-white" />
+                        <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-orange-500 to-red-500 flex items-center justify-center shrink-0 shadow-sm">
+                            <Flame className="w-3.5 h-3.5 text-white" />
                         </div>
                         <span className="font-semibold text-sm truncate text-[--text-primary]">
                             Flow
