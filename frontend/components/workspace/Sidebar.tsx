@@ -5,7 +5,7 @@ import { useTheme } from "next-themes";
 import { motion, AnimatePresence } from "motion/react";
 import {
     Plus, Trash2, MessageSquare,
-    Sun, Moon, ChevronLeft, ChevronRight, Brain, Loader2,
+    Sun, Moon, Brain, Loader2, PanelLeftClose, PanelLeftOpen,
 } from "lucide-react";
 import { useState, useEffect } from "react";
 import { cn, formatDate, truncate } from "@/lib/utils";
@@ -58,21 +58,33 @@ export function Sidebar({ collapsed, onToggle }: SidebarProps) {
             className="relative flex flex-col h-full border-r border-black/8 dark:border-white/5 bg-[--bg-surface] overflow-hidden shrink-0"
         >
             {/* Header */}
-            <div className={cn("flex items-center h-14 px-3 gap-3", collapsed && "justify-center")}>
-                <div className="flex items-center gap-2 min-w-0">
-                    <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-violet-500 to-blue-500 flex items-center justify-center shrink-0 shadow-sm">
-                        <Brain className="w-4 h-4 text-white" />
-                    </div>
-                    {!collapsed && (
-                        <motion.span
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            className="font-semibold text-sm truncate text-[--text-primary]"
-                        >
+            <div className="flex items-center h-14 px-2 gap-1 overflow-hidden">
+                {/* Toggle button — always visible, always left-aligned */}
+                <button
+                    onClick={onToggle}
+                    className="p-2 rounded-lg hover:bg-black/8 dark:hover:bg-white/10 text-[--text-muted] hover:text-[--text-primary] transition-colors shrink-0"
+                    title={collapsed ? "Open sidebar" : "Close sidebar"}
+                >
+                    {collapsed
+                        ? <PanelLeftOpen className="w-4 h-4" />
+                        : <PanelLeftClose className="w-4 h-4" />}
+                </button>
+
+                {/* Logo + name — only visible when expanded */}
+                {!collapsed && (
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        className="flex items-center gap-2 min-w-0 flex-1 pl-1"
+                    >
+                        <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-violet-500 to-blue-500 flex items-center justify-center shrink-0 shadow-sm">
+                            <Brain className="w-3.5 h-3.5 text-white" />
+                        </div>
+                        <span className="font-semibold text-sm truncate text-[--text-primary]">
                             Flow
-                        </motion.span>
-                    )}
-                </div>
+                        </span>
+                    </motion.div>
+                )}
             </div>
 
             {/* New Chat Button */}
@@ -141,13 +153,7 @@ export function Sidebar({ collapsed, onToggle }: SidebarProps) {
                 {!collapsed && <span className="text-xs text-[--text-muted] ml-auto">v0.1.0</span>}
             </div>
 
-            {/* Collapse Toggle */}
-            <button
-                onClick={onToggle}
-                className="absolute top-1/2 -right-3 -translate-y-1/2 w-6 h-6 rounded-full bg-[--bg-panel] border border-[--border] flex items-center justify-center text-[--text-muted] hover:text-[--text-primary] hover:bg-[--bg-surface] transition-all z-10 shadow-sm"
-            >
-                {collapsed ? <ChevronRight className="w-3 h-3" /> : <ChevronLeft className="w-3 h-3" />}
-            </button>
+
         </motion.aside>
     );
 }

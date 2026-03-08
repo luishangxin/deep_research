@@ -135,10 +135,8 @@ sandbox:
 # Configure skills directory for specialized agent workflows
 
 skills:
-  # Path to skills directory on the host (relative to project root or absolute)
-  # Default: ../skills (relative to backend directory)
-  # Uncomment to customize:
-  path: /absolute/path/to/custom/skills
+  # Path to skills directory (relative to project root or absolute)
+  path: src/skills
 
 
 # ============================================================================

@@ -106,7 +106,7 @@ export function ChatInput({
                                             className={cn(
                                                 "w-full flex items-center gap-2.5 px-3 py-2.5 text-left transition-colors",
                                                 m.value === mode
-                                                    ? "bg-violet-50 dark:bg-violet-500/15 text-violet-600 dark:text-violet-300"
+                                                    ? "bg-violet-600 text-white"
                                                     : "hover:bg-black/5 dark:hover:bg-white/5 text-[--text-secondary] hover:text-[--text-primary]"
                                             )}
                                         >

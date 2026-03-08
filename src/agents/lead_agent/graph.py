@@ -34,6 +34,7 @@ from langgraph.prebuilt import create_react_agent
 
 from src.state import ThreadState
 from src.agents.lead_agent.middleware import run_middleware_chain
+from src.agents.lead_agent.skills import load_skill_metadata, get_skill_content as _get_skill_content
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -119,7 +120,7 @@ def _get_tool_list() -> list[BaseTool]:
         except Exception as e:
             print(f"[graph] Warning: could not load tool '{tc.get('name')}': {e}")
 
-    always_on = [task_tool, task_status_tool, ask_clarification]
+    always_on = [task_tool, task_status_tool, ask_clarification, load_skill]
     for t in always_on:
         if t not in tools:
             tools.append(t)
@@ -152,6 +153,23 @@ def ask_clarification(question: str) -> str:
     return question
 
 
+@tool
+def load_skill(skill_name: str) -> str:
+    """
+    Load the full instructions for a named skill.
+
+    Call this BEFORE executing any task that matches a skill's trigger condition.
+    The returned content contains step-by-step instructions you MUST follow.
+
+    Args:
+        skill_name: The exact name of the skill (as listed in the system prompt).
+
+    Returns:
+        The complete skill instructions in Markdown format.
+    """
+    return _get_skill_content(skill_name)
+
+
 # ─────────────────────────────────────────────────────────────────────────────
 # pre_model_hook — middleware chain (runs before every LLM call)
 # ─────────────────────────────────────────────────────────────────────────────
@@ -177,6 +195,11 @@ def _middleware_hook(state: ThreadState) -> dict:
 # ─────────────────────────────────────────────────────────────────────────────
 # prompt — dynamic system message (called before every LLM invocation)
 # ─────────────────────────────────────────────────────────────────────────────
+
+# Skill metadata loaded once at module level (name + description only).
+# Full content is fetched lazily via the load_skill tool at runtime.
+_SKILL_METAS = load_skill_metadata()
+
 
 def _build_prompt(state: ThreadState) -> list[BaseMessage]:
     """
@@ -214,6 +237,20 @@ def _build_prompt(state: ThreadState) -> list[BaseMessage]:
         "Calling only one of the two tools for medical topics is considered an incomplete response.",
         "After retrieving results from both tools, synthesise them and cite every source.",
     ]
+
+    # Inject skill metadata (name + description only) into the system prompt.
+    # Full skill content is NOT loaded here — the agent calls load_skill(name)
+    # when it decides to use a specific skill.
+    if _SKILL_METAS:
+        lines.append("")
+        lines.append("## Available Skills")
+        lines.append(
+            "When a user request matches a skill's trigger, call `load_skill(skill_name)` "
+            "FIRST to get the full instructions, then follow them exactly."
+        )
+        for meta in _SKILL_METAS:
+            lines.append(f"- **{meta.name}**: {meta.description}")
+
     # if memory_facts:
     #     lines.append("\n## Known Facts About User")
     #     lines.extend(f"- {f}" for f in memory_facts[:20] if f)
