@@ -2,8 +2,8 @@
 
 import { useRouter } from "next/navigation";
 import { motion } from "motion/react";
-import { MessageSquare, LayoutTemplate, Zap, Key, ArrowRight, Flame } from "lucide-react";
-import { ThemeToggle } from "@/components/ui/ThemeToggle";
+import { Flame, Zap, Cpu, Rocket, ArrowRight } from "lucide-react";
+import { useCreateThread } from "@/core/threads/hooks";
 
 const SUGGESTIONS = [
     "Write a comprehensive research report on quantum computing",
