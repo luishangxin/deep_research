@@ -1,11 +1,11 @@
 "use client";
 
-import { useParams, useRouter } from "next/navigation";
+import { useParams, useRouter, usePathname } from "next/navigation";
 import { useTheme } from "next-themes";
 import { motion, AnimatePresence } from "motion/react";
 import {
     Plus, Trash2, MessageSquare,
-    Sun, Moon, Brain, Loader2, PanelLeftClose, PanelLeftOpen,
+    Sun, Moon, Brain, Loader2, PanelLeftClose, PanelLeftOpen, Wrench,
 } from "lucide-react";
 import { useState, useEffect } from "react";
 import { cn, formatDate, truncate } from "@/lib/utils";
@@ -28,6 +28,8 @@ export function Sidebar({ collapsed, onToggle }: SidebarProps) {
     const deleteThread = useDeleteThread();
     const [deletingId, setDeletingId] = useState<string | null>(null);
     const [mounted, setMounted] = useState(false);
+    const pathname = usePathname();
+    const isSkillsActive = pathname?.startsWith("/workspace/skills");
     useEffect(() => { setMounted(true); }, []);
 
     const handleNewChat = async () => {
@@ -87,8 +89,27 @@ export function Sidebar({ collapsed, onToggle }: SidebarProps) {
                 )}
             </div>
 
+            {/* Skills Button */}
+            <div className={cn("px-3 pt-3 pb-1", collapsed && "px-2")}>
+                <button
+                    onClick={() => router.push("/workspace/skills")}
+                    className={cn(
+                        "group w-full flex items-center gap-2.5 h-9 rounded-lg",
+                        isSkillsActive
+                            ? "bg-violet-50 dark:bg-violet-500/10 border border-violet-200 dark:border-violet-500/20 text-violet-600 dark:text-violet-400"
+                            : "bg-transparent hover:bg-black/5 dark:hover:bg-white/5 border border-transparent hover:border-black/10 dark:hover:border-white/10 text-[--text-secondary] hover:text-[--text-primary]",
+                        "transition-all duration-150 text-sm font-medium",
+                        collapsed ? "justify-center px-0" : "px-3"
+                    )}
+                    title="Skills"
+                >
+                    <Wrench className={cn("w-4 h-4 shrink-0", isSkillsActive && "text-violet-500")} />
+                    {!collapsed && <span>Skills</span>}
+                </button>
+            </div>
+
             {/* New Chat Button */}
-            <div className={cn("px-3 pb-3", collapsed && "px-2")}>
+            <div className={cn("px-3 pb-3 pt-1", collapsed && "px-2")}>
                 <button
                     onClick={handleNewChat}
                     disabled={createThread.isPending}

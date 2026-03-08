@@ -25,6 +25,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from src.gateway.routers.config import router as config_router
 from src.gateway.routers.threads import router as threads_router
+from src.gateway.routers.skills import router as skills_router
 
 # --------------------------------------------------------------------------- #
 # Application factory
@@ -57,6 +58,7 @@ def create_app() -> FastAPI:
     # Mount routers
     app.include_router(config_router)
     app.include_router(threads_router)
+    app.include_router(skills_router)
 
     # Health check
     @app.get("/health", tags=["system"])
