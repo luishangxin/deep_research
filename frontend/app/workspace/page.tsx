@@ -6,10 +6,10 @@ import { Flame, Zap, Cpu, Rocket, ArrowRight } from "lucide-react";
 import { useCreateThread } from "@/core/threads/hooks";
 
 const SUGGESTIONS = [
-    "Write a comprehensive research report on quantum computing",
-    "Analyze the latest trends in large language models",
-    "Help me debug and optimize this Python code",
-    "Explain the differences between cloud providers for ML workloads",
+    "Summarize recent breakthroughs in CRISPR-based gene editing",
+    "Analyze the mechanism of action for mRNA vaccines",
+    "Compare treatment protocols for Type 2 Diabetes",
+    "Research the side effects of novel immunotherapy drugs",
 ];
 
 export default function WorkspacePage() {
@@ -88,7 +88,7 @@ export default function WorkspacePage() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.15 }}
                 onClick={handleNewChat}
-                className="flex items-center gap-2 px-6 py-3 mb-10 rounded-xl bg-violet-600 hover:bg-violet-500 text-white font-medium transition-all shadow-lg shadow-violet-200 dark:shadow-violet-900/40"
+                className="flex items-center gap-2 px-6 py-3 mb-10 rounded-xl bg-gradient-to-br from-orange-500 to-red-500 hover:from-orange-400 hover:to-red-400 text-white font-medium transition-all shadow-lg shadow-orange-200 dark:shadow-orange-900/40"
             >
                 Start New Conversation
                 <ArrowRight className="w-4 h-4" />

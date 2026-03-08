@@ -87,10 +87,10 @@ export default function ChatPage({ params }: ChatPageProps) {
 }
 
 const QUICK_ACTIONS = [
-    "Explain this concept step-by-step",
-    "Write a Python script to automate this",
-    "Research and summarize the latest papers on",
-    "Create a detailed plan for",
+    "Explain the pathogenesis of this disease",
+    "Summarize recent clinical trial results for",
+    "Analyze this patient case and suggest possible diagnoses",
+    "Create a detailed literature review on",
 ];
 
 function EmptyState({ onSuggestion }: { onSuggestion: (s: string) => void }) {
