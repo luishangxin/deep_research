@@ -117,3 +117,43 @@ async def get_skill_content(name: str) -> SkillContent:
                 return SkillContent(name=skill_name, content=table_md + body)
 
     raise HTTPException(status_code=404, detail=f"Skill not found: {name}")
+
+@router.get("/{name}/raw", response_model=SkillContent)
+async def get_skill_raw_content(name: str) -> SkillContent:
+    """Return the raw SKILL.md content for the given skill name."""
+    if not _SKILLS_DIR.is_dir():
+        raise HTTPException(status_code=404, detail="Skills directory not found")
+
+    for skill_dir in _SKILLS_DIR.iterdir():
+        skill_md = skill_dir / "SKILL.md"
+        if skill_dir.is_dir() and skill_md.is_file():
+            text = skill_md.read_text(encoding="utf-8")
+            meta, body = _parse_frontmatter(text)
+            skill_name = meta.get("name", skill_dir.name)
+            if skill_name == name:
+                return SkillContent(name=skill_name, content=text)
+
+    raise HTTPException(status_code=404, detail=f"Skill not found: {name}")
+
+
+class SkillUpdatePayload(BaseModel):
+    content: str
+
+
+@router.put("/{name}", response_model=SkillContent)
+async def update_skill_content(name: str, payload: SkillUpdatePayload) -> SkillContent:
+    """Update the SKILL.md content for the given skill name."""
+    if not _SKILLS_DIR.is_dir():
+        raise HTTPException(status_code=404, detail="Skills directory not found")
+
+    for skill_dir in _SKILLS_DIR.iterdir():
+        skill_md = skill_dir / "SKILL.md"
+        if skill_dir.is_dir() and skill_md.is_file():
+            text = skill_md.read_text(encoding="utf-8")
+            meta, _ = _parse_frontmatter(text)
+            skill_name = meta.get("name", skill_dir.name)
+            if skill_name == name:
+                skill_md.write_text(payload.content, encoding="utf-8")
+                return SkillContent(name=skill_name, content=payload.content)
+
+    raise HTTPException(status_code=404, detail=f"Skill not found: {name}")

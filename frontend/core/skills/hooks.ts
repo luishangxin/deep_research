@@ -56,3 +56,39 @@ export function useSkillContent(name: string | null) {
         retry: false,
     });
 }
+
+export function useSkillRawContent(name: string | null) {
+    return useQuery<SkillContent>({
+        queryKey: ["skills", name, "raw"],
+        queryFn: () => gatewayFetch<SkillContent>(`/api/skills/${encodeURIComponent(name!)}/raw`),
+        enabled: !!name,
+        staleTime: 60_000,
+        retry: false,
+    });
+}
+
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+
+export function useUpdateSkill() {
+    const queryClient = useQueryClient();
+
+    return useMutation<SkillContent, Error, { name: string; content: string }>({
+        mutationFn: async ({ name, content }) => {
+            const base = getGatewayBaseURL();
+            const res = await fetch(`${base}/api/skills/${encodeURIComponent(name)}`, {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ content }),
+            });
+            if (!res.ok) {
+                const text = await res.text().catch(() => "Unknown error");
+                throw new Error(`HTTP ${res.status}: ${text}`);
+            }
+            return res.json();
+        },
+        onSuccess: (updatedSkill) => {
+            queryClient.invalidateQueries({ queryKey: ["skills"] });
+            queryClient.invalidateQueries({ queryKey: ["skills", updatedSkill.name] });
+        },
+    });
+}

@@ -1,18 +1,34 @@
 "use client";
 
-import { useState } from "react";
-import { Wrench, ChevronRight, Loader2, AlertCircle } from "lucide-react";
+import { useState, useEffect } from "react";
+import { Wrench, ChevronRight, Loader2, AlertCircle, Edit2, Save, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { MarkdownRenderer } from "@/components/workspace/MarkdownRenderer";
-import { useSkills, useSkillContent, type Skill } from "@/core/skills/hooks";
+import { useSkills, useSkillContent, useSkillRawContent, useUpdateSkill, type Skill } from "@/core/skills/hooks";
+
 
 export function SkillsPanel() {
     const [selectedSkill, setSelectedSkill] = useState<string | null>(null);
+    const [isEditing, setIsEditing] = useState(false);
+    const [editContent, setEditContent] = useState("");
+
     const { data: skills, isLoading, error } = useSkills();
     const {
         data: skillContent,
         isLoading: isLoadingContent,
     } = useSkillContent(selectedSkill);
+    const { data: skillRawContent, isLoading: isLoadingRaw } = useSkillRawContent(isEditing ? selectedSkill : null);
+    const updateSkill = useUpdateSkill();
+
+    useEffect(() => {
+        if (isEditing && skillRawContent) {
+            setEditContent(skillRawContent.content);
+        }
+    }, [isEditing, skillRawContent]);
+
+    useEffect(() => {
+        setIsEditing(false);
+    }, [selectedSkill]);
 
     return (
         <div className="flex h-full overflow-hidden">
@@ -58,12 +74,75 @@ export function SkillsPanel() {
             <main className="flex-1 overflow-y-auto p-6 bg-[--bg-base]">
                 {!selectedSkill ? (
                     <EmptyState />
+                ) : isEditing ? (
+                    isLoadingRaw ? (
+                        <div className="flex items-center justify-center h-32">
+                            <Loader2 className="w-5 h-5 animate-spin text-[--text-muted]" />
+                        </div>
+                    ) : (
+                        <div className="max-w-3xl mx-auto h-full flex flex-col">
+                            <div className="flex items-center justify-between mb-4">
+                                <h3 className="font-semibold text-lg text-[--text-primary] flex items-center gap-2">
+                                    <Edit2 className="w-4 h-4 text-orange-500" />
+                                    Editing {selectedSkill}
+                                </h3>
+                                <div className="flex items-center gap-2">
+                                    <button
+                                        onClick={() => setIsEditing(false)}
+                                        className="px-3 py-1.5 text-sm font-medium text-[--text-secondary] hover:bg-black/5 dark:hover:bg-white/5 rounded-md flex items-center gap-1.5 transition-colors"
+                                        disabled={updateSkill.isPending}
+                                    >
+                                        <X className="w-4 h-4" /> Cancel
+                                    </button>
+                                    <button
+                                        onClick={async () => {
+                                            if (!selectedSkill) return;
+                                            try {
+                                                await updateSkill.mutateAsync({ name: selectedSkill, content: editContent });
+                                                setIsEditing(false);
+                                            } catch (e) {
+                                                console.error("Failed to update skill", e);
+                                            }
+                                        }}
+                                        disabled={updateSkill.isPending}
+                                        className="px-3 py-1.5 text-sm font-medium text-white bg-orange-500 hover:bg-orange-600 rounded-md flex items-center gap-1.5 transition-colors disabled:opacity-50"
+                                    >
+                                        {updateSkill.isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
+                                        Save
+                                    </button>
+                                </div>
+                            </div>
+                            {updateSkill.isError && (
+                                <div className="mb-4 p-3 rounded-md bg-red-50 dark:bg-red-500/10 text-red-600 dark:text-red-400 text-sm flex items-center gap-2">
+                                    <AlertCircle className="w-4 h-4 shrink-0" />
+                                    Failed to save changes.
+                                </div>
+                            )}
+                            <textarea
+                                value={editContent}
+                                onChange={(e) => setEditContent(e.target.value)}
+                                className="flex-1 w-full p-4 font-mono text-sm bg-black/5 dark:bg-white/5 rounded-lg border border-transparent focus:border-orange-500/50 focus:outline-none resize-none text-[--text-primary]"
+                                spellCheck={false}
+                            />
+                        </div>
+                    )
                 ) : isLoadingContent ? (
                     <div className="flex items-center justify-center h-32">
                         <Loader2 className="w-5 h-5 animate-spin text-[--text-muted]" />
                     </div>
                 ) : skillContent ? (
                     <div className="max-w-3xl mx-auto">
+                        <div className="flex justify-end mb-4">
+                            <button
+                                onClick={() => {
+                                    setIsEditing(true);
+                                }}
+                                className="px-3 py-1.5 text-sm font-medium text-[--text-secondary] hover:text-[--text-primary] hover:bg-black/5 dark:hover:bg-white/5 rounded-md flex items-center gap-1.5 transition-colors"
+                            >
+                                <Edit2 className="w-4 h-4" />
+                                Edit Skill
+                            </button>
+                        </div>
                         <MarkdownRenderer content={skillContent.content} />
                     </div>
                 ) : null}
