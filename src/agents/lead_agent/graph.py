@@ -158,7 +158,8 @@ def load_skill(skill_name: str) -> str:
     """
     Load the full instructions for a named skill.
 
-    Call this BEFORE executing any task that matches a skill's trigger condition.
+    Call this EXACTLY ONCE when a task matches a skill's trigger condition.
+    DO NOT call this if you have already loaded the skill previously in the conversation.
     The returned content contains step-by-step instructions you MUST follow.
 
     Args:
@@ -246,7 +247,8 @@ def _build_prompt(state: ThreadState) -> list[BaseMessage]:
         lines.append("## Available Skills")
         lines.append(
             "When a user request matches a skill's trigger, call `load_skill(skill_name)` "
-            "FIRST to get the full instructions, then follow them exactly."
+            "EXACTLY ONCE to get the full instructions, then follow them exactly. "
+            "DO NOT call load_skill for a skill you have already loaded in this conversation."
         )
         for meta in _SKILL_METAS:
             lines.append(f"- **{meta.name}**: {meta.description}")

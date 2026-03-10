@@ -31,6 +31,7 @@ import re
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Optional
+from functools import lru_cache
 
 
 # ---------------------------------------------------------------------------
@@ -93,6 +94,7 @@ def _get_skills_dir() -> Path:
 # Public API
 # ---------------------------------------------------------------------------
 
+@lru_cache(maxsize=1)
 def load_skill_metadata() -> list[SkillMeta]:
     """Scan the skills directory and return metadata (name + description) only.
 
@@ -121,6 +123,7 @@ def load_skill_metadata() -> list[SkillMeta]:
     return metas
 
 
+@lru_cache(maxsize=128)
 def get_skill_content(name: str) -> str:
     """Load and return the full markdown body for the named skill.
 
